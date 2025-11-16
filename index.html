@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Stage Stories Livestream</title>
+    <title>My Event – Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       :root {
@@ -16,65 +16,95 @@
       body {
         margin: 0;
         min-height: 100vh;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background:
+          url("assets/logo.jpg") center center / contain no-repeat,
+          #020617;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-          sans-serif;
-        color: #f9fafb;
       }
 
-      /* Logo background */
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background:
-          url("assets/logo.jpg") center center / contain no-repeat,
-          #020617; /* fallback color behind logo */
-        opacity: 0.25; /* adjust to make logo more or less visible */
-        z-index: -2;
-      }
-
-      /* Dark overlay gradient to keep text/player readable */
       body::after {
         content: "";
         position: fixed;
         inset: 0;
-        background: radial-gradient(circle at top, #1f2937aa, #020617ff);
+        background: radial-gradient(circle at top, #020617bb, #020617ff);
         z-index: -1;
       }
 
-      .container {
-        width: 100%;
-        max-width: 960px;
-        padding: 1.5rem;
-      }
-
-      .panel {
-        padding: 1.5rem;
+      .card {
+        background: rgba(15, 23, 42, 0.92);
+        padding: 1.75rem 1.5rem;
         border-radius: 18px;
-        background: rgba(15, 23, 42, 0.9);
-        backdrop-filter: blur(12px);
-        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+        max-width: 960px;
+        width: 100%;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
       }
 
       h1 {
         margin: 0 0 0.25rem;
         font-size: 1.8rem;
+        color: #f9fafb;
       }
 
       .subtitle {
         margin: 0 0 1.25rem;
         font-size: 0.95rem;
-        opacity: 0.8;
+        color: #9ca3af;
+      }
+
+      .password-screen,
+      .content {
+        display: none;
+      }
+
+      .password-screen.active,
+      .content.active {
+        display: block;
+      }
+
+      label {
+        display: block;
+        text-align: left;
+        margin-bottom: 0.25rem;
+        font-size: 0.85rem;
+        color: #e5e7eb;
+      }
+
+      input[type="password"] {
+        width: 100%;
+        padding: 0.6rem 0.75rem;
+        border-radius: 8px;
+        border: 1px solid #4b5563;
+        background: #020617;
+        color: #f9fafb;
+        margin-bottom: 0.75rem;
+      }
+
+      button {
+        display: inline-block;
+        padding: 0.6rem 1.25rem;
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        background: #22c55e;
+        color: #022c22;
+      }
+
+      .error {
+        margin-top: 0.5rem;
+        font-size: 0.8rem;
+        color: #f97373;
+        display: none;
       }
 
       video,
       iframe {
         width: 100%;
         max-width: 100%;
-        height: auto;
         border-radius: 12px;
         border: 0;
       }
@@ -82,48 +112,71 @@
       .hint {
         margin-top: 0.75rem;
         font-size: 0.8rem;
-        opacity: 0.7;
+        color: #9ca3af;
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <div class="panel">
-        <h1>Stage Stories Livestream</h1>
+    <div class="card">
+      <!-- Password gate -->
+      <div class="password-screen active" id="password-screen">
+        <h1>My Event – Access</h1>
+        <p class="subtitle">Enter the event password to watch the stream.</p>
 
-        <!-- 🔴 OPTION A: Mux (HLS) player -->
-        <!--
-        <video id="live" controls autoplay playsinline></video>
-        <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-        <script>
-          const video = document.getElementById("live");
-          const src = "https://stream.mux.com/PLAYBACK_ID.m3u8"; // your Mux URL
+        <form id="login-form">
+          <label for="password">Event password</label>
+          <input
+            type="password"
+            id="password"
+            autocomplete="current-password"
+            required
+          />
+          <button type="submit">Enter</button>
+          <div class="error" id="error">Wrong password, try again.</div>
+        </form>
+      </div>
 
-          if (video.canPlayType("application/vnd.apple.mpegurl")) {
-            video.src = src;
-          } else if (window.Hls && Hls.isSupported()) {
-            const hls = new Hls();
-            hls.loadSource(src);
-            hls.attachMedia(video);
-          } else {
-            video.outerHTML =
-              "<p>Your browser doesn’t support HLS playback. Try a modern browser.</p>";
-          }
-        </script>
-        -->
+      <!-- Your actual content (hidden until password is correct) -->
+      <div class="content" id="content">
+        <h1>My Event – Live</h1>
+        <p class="subtitle">Streaming now (or starting shortly)…</p>
 
-        <!-- 🔵 OPTION B: Dacast embed -->
-        <!-- Replace this iframe with the one Dacast gives you -->
+        <!-- 🔵 Example: Dacast iframe -->
         <iframe
           src="DACAST_EMBED_URL"
           allowfullscreen
         ></iframe>
 
+        <!-- 🔴 Or replace with your Mux <video> + HLS.js setup -->
+
         <p class="hint">
-          Falls der Player nichts anzeigt, sind wir vermutlich noch nicht live.
-           Lade die Seite in wenigen Minuten neu.
+          If the player stays blank, the stream may not have started yet. Try
+          refreshing a little after the scheduled start time.
         </p>
       </div>
     </div>
+
+    <script>
+      // CHANGE THIS PASSWORD:
+      const CORRECT_PASSWORD = "myevent123";
+
+      const form = document.getElementById("login-form");
+      const input = document.getElementById("password");
+      const error = document.getElementById("error");
+      const screen = document.getElementById("password-screen");
+      const content = document.getElementById("content");
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        if (input.value === CORRECT_PASSWORD) {
+          screen.classList.remove("active");
+          content.classList.add("active");
+          error.style.display = "none";
+          input.value = "";
+        } else {
+          error.style.display = "block";
+        }
+      });
+    </script>
   </body>
 </html>
