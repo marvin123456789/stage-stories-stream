@@ -1,1 +1,57 @@
-ljkhgasdflhjkgysvjklösfvöhvdsvölbhjk
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>My Live Event</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 0;
+        padding: 2rem;
+        text-align: center;
+        background: #0f172a;
+        color: #e5e7eb;
+      }
+      .container {
+        max-width: 960px;
+        margin: 0 auto;
+      }
+      video {
+        width: 100%;
+        max-width: 960px;
+        border-radius: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>My Event – Live</h1>
+      <p>If you see a black screen, the stream might not be live yet.</p>
+
+      <video id="live" controls autoplay playsinline></video>
+
+      <p style="margin-top:1rem;font-size:0.875rem;opacity:0.7;">
+        Tip: Refresh the page a little after the scheduled start time.
+      </p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+      const video = document.getElementById("live");
+      const src = "https://stream.mux.com/PLAYBACK_ID.m3u8"; // ← your Mux URL
+
+      if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        // Safari, iOS
+        video.src = src;
+      } else if (window.Hls && Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(src);
+        hls.attachMedia(video);
+      } else {
+        video.outerHTML =
+          "<p>Your browser doesn’t support HLS playback. Try a modern browser.</p>";
+      }
+    </script>
+  </body>
+</html>
