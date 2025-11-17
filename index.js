@@ -8,10 +8,11 @@ const mux = new Mux({
 
 const run = async () => {
 
-    await mux.video.liveStreams.create({
+    const stream = await mux.video.liveStreams.create({
         playback_policy: ['public'],
         new_asset_settings: {playback_policy: ['public']}
     })
+    console.log(stream)
 }
 
 run()
