@@ -122,21 +122,21 @@
   <div class="card">
     <!-- Password gate -->
     <div class="password-screen active" id="password-screen">
-      <h1>My Event – Access</h1>
-      <p class="subtitle">Enter the event password to watch the stream.</p>
+      <h1>Stage Stories Livestream</h1>
+      <p class="subtitle">Bitte gib das Passwort für das Event ein.</p>
 
       <form id="login-form">
         <label for="password">Event password</label>
         <input type="password" id="password" autocomplete="current-password" required />
         <button type="submit">Enter</button>
-        <div class="error" id="error">Wrong password, try again.</div>
+        <div class="error" id="error">Falsches Passwort, bitte erneut versuchen.</div>
       </form>
     </div>
 
     <!-- Your actual content (hidden until password is correct) -->
     <div class="content" id="content">
-      <h1>My Event – Live</h1>
-      <p class="subtitle">Streaming now (or starting shortly)…</p>
+      <h1>Stage Stories</h1>
+      <p class="subtitle">Willkommen beim Stage Stories Livestream. Viel Spaß!</p>
 
       <iframe src="https://player.mux.com/iNgcMEx7E4wddbOm2Vl9M00b6hlvqq3FLhASvU4nqNQQ"
         style="width: 100%; border: none;"
@@ -144,15 +144,13 @@
 
 
       <p class="hint">
-        If the player stays blank, the stream may not have started yet. Try
-        refreshing a little after the scheduled start time.
+        Falls noch nichts zu sehen ist, bitten wir um einen Augenblick Geduld. Der Stream startet um ca. 18:15 
       </p>
     </div>
   </div>
 
   <script>
-    // CHANGE THIS PASSWORD:
-    const CORRECT_PASSWORD = "stage-stories";
+    const WhyWouldYouHackMePlsItsSoMean = "18.11.2025";
 
     const form = document.getElementById("login-form");
     const input = document.getElementById("password");
@@ -162,7 +160,7 @@
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      if (input.value === CORRECT_PASSWORD) {
+      if (input.value === WhyWouldYouHackMePlsItsSoMean) {
         screen.classList.remove("active");
         content.classList.add("active");
         error.style.display = "none";
