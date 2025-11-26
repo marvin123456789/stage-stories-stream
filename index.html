@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 
 <head>
   <meta charset="UTF-8" />
-  <title>My Event – Login</title>
+  <title>Stage Stories – Stream & VODs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
@@ -56,13 +56,75 @@
       color: #9ca3af;
     }
 
-    .password-screen,
-    .content {
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #1f2937;
+      padding-bottom: 0.25rem;
+    }
+
+    .tab {
+      position: relative;
+      border: none;
+      background: transparent;
+      color: #9ca3af;
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .tab::after {
+      content: "";
+      position: absolute;
+      left: 12%;
+      right: 12%;
+      bottom: -0.45rem;
+      height: 2px;
+      border-radius: 999px;
+      background: transparent;
+      transition: background 0.15s ease;
+    }
+
+    .tab.active {
+      background: #0f172a;
+      color: #f9fafb;
+    }
+
+    .tab.active::after {
+      background: #22c55e;
+    }
+
+    .tab.locked {
+      opacity: 0.7;
+    }
+
+    .tab-icon {
+      font-size: 1rem;
+    }
+
+    .tab-panel {
       display: none;
     }
 
-    .password-screen.active,
-    .content.active {
+    .tab-panel.active {
+      display: block;
+    }
+
+    /* Live password vs content */
+    .live-password-screen,
+    .live-content {
+      display: none;
+    }
+
+    .live-password-screen.active,
+    .live-content.active {
       display: block;
     }
 
@@ -115,62 +177,181 @@
       font-size: 0.8rem;
       color: #9ca3af;
     }
+
+    /* Simple VOD layout */
+    .vod-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1rem;
+    }
+
+    @media (min-width: 768px) {
+      .vod-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .vod-card {
+      background: #020617;
+      border-radius: 14px;
+      padding: 0.75rem;
+      border: 1px solid #1f2937;
+    }
+
+    .vod-title {
+      margin: 0.5rem 0 0.15rem;
+      font-size: 0.95rem;
+      color: #f9fafb;
+    }
+
+    .vod-meta {
+      margin: 0;
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
   </style>
 </head>
 
 <body>
   <div class="card">
-    <!-- Password gate -->
-    <div class="password-screen active" id="password-screen">
-      <h1>Stage Stories Livestream</h1>
-      <p class="subtitle">Bitte gib das Passwort für das Event ein.</p>
+    <h1>Stage Stories</h1>
+    <p class="subtitle">Willkommen bei Stage Stories – Livestream & Aufzeichnungen.</p>
 
-      <form id="login-form">
-        <label for="password">Event password</label>
-        <input type="password" id="password" autocomplete="current-password" required />
-        <button type="submit">Enter</button>
-        <div class="error" id="error">Falsches Passwort, bitte erneut versuchen.</div>
-      </form>
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-tab="vods">
+        <span class="tab-icon">🎬</span>
+        <span>VODs</span>
+      </button>
+      <button class="tab locked" data-tab="live" id="live-tab" aria-disabled="true">
+        <span class="tab-icon">📡</span>
+        <span>Livestream</span>
+      </button>
     </div>
 
-    <!-- Your actual content (hidden until password is correct) -->
-    <div class="content" id="content">
-      <h1>Stage Stories</h1>
-      <p class="subtitle">Willkommen beim Stage Stories Livestream. Viel Spaß!</p>
+    <!-- VODs tab -->
+    <div class="tab-panel active" id="vods-panel">
+      <p class="subtitle">Hier findest du die Aufzeichnungen vergangener Sessions.</p>
 
-      <!-- <iframe src="https://player.mux.com/iNgcMEx7E4wddbOm2Vl9M00b6hlvqq3FLhASvU4nqNQQ"
+      <div class="vod-grid">
+        <!-- VOD 1 -->
+        <div class="vod-card">
+          <iframe src="https://player.mux.com/NcsivaOsRJnxPxdou00LwqlNEU801jX9N5GQw5N02vy1OM"
+            style="width: 100%; border: none; aspect-ratio: 16/9;"
+            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen></iframe>
+          <h3 class="vod-title">Session 1 – Best of Stage Stories</h3>
+          <p class="vod-meta">Aufzeichnung vom 18. November 2025</p>
+        </div>
 
-        style="width: 100%; border: none;"
-        allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen></iframe> -->
-      <iframe src="https://player.mux.com/NcsivaOsRJnxPxdou00LwqlNEU801jX9N5GQw5N02vy1OM"
-        style="width: 100%; border: none; aspect-ratio: 16/9;"
-        allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen></iframe>
+        <!-- VOD 2 -->
+        <!-- <div class="vod-card">
+          <iframe src="https://player.mux.com/YOUR_VOD_PLAYBACK_ID_2"
+            style="width: 100%; border: none; aspect-ratio: 16/9;"
+            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen>
+          </iframe>
+          <h3 class="vod-title">Session 2 – Highlights</h3>
+          <p class="vod-meta">Aufzeichnung vom 19. November 2025</p>
+        </div> -->
+      </div>
+    </div>
 
+    <div class="tab-panel" id="live-panel">
+      <div class="live-password-screen active" id="live-password-screen">
+        <h2>Livestream gesperrt</h2>
+        <p class="subtitle">Bitte gib das Passwort für den Livestream ein.</p>
 
-      <p class="hint">
-        Falls noch nichts zu sehen ist, bitten wir um einen Augenblick Geduld. Der Stream startet um ca. 18:15
-      </p>
+        <form id="live-login-form">
+          <label for="live-password">Event-Passwort</label>
+          <input type="password" id="live-password" autocomplete="current-password" required />
+          <button type="submit">Freischalten</button>
+          <div class="error" id="live-error">Falsches Passwort, bitte erneut versuchen.</div>
+        </form>
+      </div>
+
+      <div class="live-content" id="live-content">
+        <h2>Stage Stories Livestream</h2>
+        <p class="subtitle">Viel Spaß beim Event!</p>
+
+        <iframe src="https://player.mux.com/NcsivaOsRJnxPxdou00LwqlNEU801jX9N5GQw5N02vy1OM"
+          style="width: 100%; border: none; aspect-ratio: 16/9;"
+          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen>
+        </iframe>
+
+        <p class="hint">
+          Falls noch nichts zu sehen ist, bitten wir um einen Augenblick Geduld.
+          Der Stream startet um ca. 18:15 Uhr.
+        </p>
+      </div>
     </div>
   </div>
 
   <script>
-    const WhyWouldYouHackMePlsItsSoMean = "18.11.2025";
+    // Really not that secret, but hey:
+    const LIVE_PASSWORD = "18.11.2025";
 
-    const form = document.getElementById("login-form");
-    const input = document.getElementById("password");
-    const error = document.getElementById("error");
-    const screen = document.getElementById("password-screen");
-    const content = document.getElementById("content");
+    const tabs = document.querySelectorAll(".tab");
+    const vodsPanel = document.getElementById("vods-panel");
+    const livePanel = document.getElementById("live-panel");
+    const liveTab = document.getElementById("live-tab");
 
-    form.addEventListener("submit", function (e) {
+    const livePasswordScreen = document.getElementById("live-password-screen");
+    const liveContent = document.getElementById("live-content");
+    const liveForm = document.getElementById("live-login-form");
+    const liveInput = document.getElementById("live-password");
+    const liveError = document.getElementById("live-error");
+
+    let liveUnlocked = false;
+
+    function setActiveTab(name) {
+      // Toggle active tab button
+      tabs.forEach(tab => {
+        const isActive = tab.dataset.tab === name;
+        tab.classList.toggle("active", isActive);
+      });
+
+      // Toggle tab panels
+      vodsPanel.classList.toggle("active", name === "vods");
+      livePanel.classList.toggle("active", name === "live");
+    }
+
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        const target = tab.dataset.tab;
+
+        if (target === "live") {
+          // Always switch to the Live panel when clicking the Live tab
+          setActiveTab("live");
+
+          // If not unlocked, show password screen; else show player
+          if (!liveUnlocked) {
+            livePasswordScreen.classList.add("active");
+            liveContent.classList.remove("active");
+          } else {
+            livePasswordScreen.classList.remove("active");
+            liveContent.classList.add("active");
+          }
+        } else {
+          setActiveTab("vods");
+        }
+      });
+    });
+
+    // Handle live password form
+    liveForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      if (input.value === WhyWouldYouHackMePlsItsSoMean) {
-        screen.classList.remove("active");
-        content.classList.add("active");
-        error.style.display = "none";
-        input.value = "";
+
+      if (liveInput.value === LIVE_PASSWORD) {
+        liveUnlocked = true;
+        livePasswordScreen.classList.remove("active");
+        liveContent.classList.add("active");
+        liveError.style.display = "none";
+        liveInput.value = "";
+
+        // Visually unlock the Live tab
+        liveTab.classList.remove("locked");
+        liveTab.removeAttribute("aria-disabled");
       } else {
-        error.style.display = "block";
+        liveError.style.display = "block";
       }
     });
   </script>
